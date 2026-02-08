@@ -7,6 +7,9 @@ const Contact = ({ dark }) => {
     message: ""
   });
 
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   function handleChange(e) {
     setFormData({
       ...formData,
@@ -14,21 +17,56 @@ const Contact = ({ dark }) => {
     });
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
 
-    console.log("Form Data:", formData);
-    alert("Your inquiry has been sent successfully!");
+    try {
+      const data = new FormData();
+      data.append("name", formData.name);
+      data.append("email", formData.email);
+      data.append("message", formData.message);
 
-    setFormData({
-      name: "",
-      email: "",
-      message: ""
-    });
+      // Your Web3Forms access key
+      data.append("access_key", "e531d982-107d-41a8-bead-6eabefeb4f5b");
+
+      const object = Object.fromEntries(data);
+      const json = JSON.stringify(object);
+
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: json
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        setSuccess(true);
+
+        setFormData({
+          name: "",
+          email: "",
+          message: ""
+        });
+
+        setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Something went wrong. Please try again.");
+    }
+
+    setLoading(false);
   }
 
   return (
-    <div id="contact" className="py-24 px-5 md:px-0">
+    <div id="contact" className="mb-10 md:mb-20 px-5 md:px-0">
 
       {/* Header */}
       <div className={`text-center text-4xl ${dark && "text-white"}`}>
@@ -41,7 +79,7 @@ const Contact = ({ dark }) => {
         </p>
       </div>
 
-      {/* Glass Card */}
+      {/* Form Card */}
       <div className="flex justify-center mt-14">
         <form
           onSubmit={handleSubmit}
@@ -60,16 +98,14 @@ const Contact = ({ dark }) => {
               onChange={handleChange}
               type="text"
               placeholder=" "
-              className={`peer w-full h-12 border px-4 rounded-xl outline-none transition-all ${
+              className={`peer w-full h-12 border px-4 rounded-xl outline-none ${
                 dark
                   ? "bg-black border-gray-700 text-white"
                   : "bg-blue-50 border-gray-300"
               }`}
               required
             />
-            <label
-              className="absolute left-4 -top-2.5 text-sm bg-white px-1 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-sm"
-            >
+            <label className="absolute left-4 -top-2.5 text-sm bg-blue-50 px-1 text-gray-500">
               Name
             </label>
           </div>
@@ -82,16 +118,14 @@ const Contact = ({ dark }) => {
               onChange={handleChange}
               type="email"
               placeholder=" "
-              className={`peer w-full h-12 border px-4 rounded-xl outline-none transition-all ${
+              className={`peer w-full h-12 border px-4 rounded-xl outline-none ${
                 dark
                   ? "bg-black border-gray-700 text-white"
                   : "bg-blue-50 border-gray-300"
               }`}
               required
             />
-            <label
-              className="absolute left-4 -top-2.5 text-sm bg-white px-1 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-sm"
-            >
+            <label className="absolute left-4 -top-2.5 text-sm bg-blue-50 px-1 text-gray-500">
               Email
             </label>
           </div>
@@ -103,26 +137,32 @@ const Contact = ({ dark }) => {
               value={formData.message}
               onChange={handleChange}
               placeholder=" "
-              className={`peer w-full h-36 border p-4 rounded-xl outline-none transition-all ${
+              className={`peer w-full h-36 border p-4 rounded-xl outline-none ${
                 dark
                   ? "bg-black border-gray-700 text-white"
                   : "bg-blue-50 border-gray-300"
               }`}
               required
             />
-            <label
-              className="absolute left-4 -top-2.5 text-sm bg-white px-1 text-gray-500 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-sm"
-            >
+            <label className="absolute left-4 -top-2.5 text-sm bg-blue-50 px-1 text-gray-500">
               Message / Property Requirement
             </label>
           </div>
 
           {/* Submit */}
           <button
+            type="submit"
+            disabled={loading}
             className="w-full bg-[#374151] hover:opacity-90 text-white py-4 rounded-xl font-semibold tracking-wide transition-all active:scale-[0.97]"
           >
-            Send Inquiry
+            {loading ? "Sending..." : "Send Inquiry"}
           </button>
+
+          {success && (
+            <p className="text-green-500 text-center mt-4">
+              Message sent successfully!
+            </p>
+          )}
 
         </form>
       </div>

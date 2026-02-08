@@ -5,7 +5,7 @@ const About = ({dark}) => {
   return (
     <div
       id="about"
-      className="mt-10 flex flex-col justify-center md:gap-10 items-center">
+      className="mb-10 md:mb-20 flex flex-col justify-center md:gap-10 items-center">
       
       <div className={`text-center text-4xl ${dark && 'text-white'}`}>
         <span className="font-bold me-2">About</span>

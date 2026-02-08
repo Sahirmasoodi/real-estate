@@ -5,7 +5,7 @@ const Projects = ({dark}) => {
   return (
     <div
       id="projects"
-      className="h-screen flex flex-col justify-center gap-10 items-center">
+      className="my-10 md:my-20 flex flex-col justify-center gap-10 items-center">
 
       <div className={`text-center text-4xl ${dark && 'text-white'}`}>
         <span className="font-bold me-2">Featured</span>
