@@ -3,7 +3,7 @@ import { assets, testimonialsData } from "../assets/assets";
 
 const Testimonials = ({ dark }) => {
   return (
-    <div id="testimonials" className="p-5 ">
+    <div id="testimonials" className="p-5 mb-10 md:mb-20">
       <div className={`text-center text-4xl ${dark && "text-white"}`}>
         <span className="font-bold me-2">Client</span>
         <span>Success Stories</span>
@@ -13,7 +13,7 @@ const Testimonials = ({ dark }) => {
         </p>
       </div>
 
-      <div className="flex justify-center overflow-scroll gap-10 mt-10">
+      <div className="flex justify-start md:justify-center overflow-scroll hide-scrollbar gap-10 mt-10">
         {testimonialsData.map((person, index) => (
           <div
             className={`min-w-80 max-w-80 flex flex-col items-center gap-y-5 p-10 shadow-md border border-black rounded-sm   ${dark ? "border-white " : " border-black "}`}

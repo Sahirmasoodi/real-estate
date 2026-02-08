@@ -3,7 +3,7 @@ import { brokersData } from "../assets/assets";
 
 const Brokers = ({ dark }) => {
   return (
-    <div id="brokers" className="py-20 px-5 md:px-10">
+    <div id="brokers" className="mb-10 md:mb-20 px-5 md:px-10">
       <div className={`text-center text-4xl ${dark && "text-white"}`}>
         <span className="font-bold me-2">Our</span>
         <span>Brokers</span>
@@ -18,7 +18,7 @@ const Brokers = ({ dark }) => {
         {brokersData.map((broker) => (
           <div
             key={broker.id}
-            className={`p-6 rounded-xl shadow-lg text-center transition-all hover:scale-[101%] ${
+            className={`p-6 rounded-xl shadow-md border text-center transition-all hover:scale-[101%] ${
               dark
                 ? "bg-black text-white border border-gray-700"
                 : "bg-blue-50"
@@ -42,10 +42,6 @@ const Brokers = ({ dark }) => {
               <p>{broker.phone}</p>
               <p>{broker.email}</p>
             </div>
-
-            <button className="mt-4 px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800">
-              Contact Broker
-            </button>
           </div>
         ))}
       </div>

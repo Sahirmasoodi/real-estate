@@ -12,10 +12,10 @@ const App = () => {
   return (
     <div className={dark ? 'bg-black':'bg-blue-50'}>
       <Header setDark={setDark} dark={dark} />
-      <About dark={dark}/>
-      <Brokers dark={dark}/>
       <Projects dark={dark}/>
+      <About dark={dark}/>
       <Testimonials dark={dark}/>
+      <Brokers dark={dark}/>
       <Contact dark={dark}/>
       <Footer dark={dark}/>
     </div>
